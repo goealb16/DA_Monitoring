@@ -1,0 +1,45 @@
+version: "3.3"
+
+services:
+
+  prometheus:
+    image: goealb16/da_monitoring:prometheus
+    container_name: monitoring_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./config/targets_node_exporter.yml:/etc/prometheus/targets_node_exporter.yml
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+
+  node-exporter:
+    image: goealb16/da_monitoring:nodeexporter
+    container_name: monitoring_node_exporter
+    restart: unless-stopped
+    expose:
+      - 9100
+    ports:
+      - 9100:9100
+      
+  grafana:
+    image: goealb16/da_monitoring:grafana
+    container_name: monitoring_grafana
+    restart: always
+    depends_on:
+      - prometheus
+      - node-exporter
+      - alertmanager
+    volumes:
+      - ./data:/var/lib/grafana
+    ports:
+      - 3000:3000
+      
+  alertmanager:
+    image: goealb16/da_monitoring:alertmanager
+    container_name: monitoring_alertmanager
+    restart: unless-stopped
+    expose:
+      - 9093
+    ports:
+      - 9093:9093 
