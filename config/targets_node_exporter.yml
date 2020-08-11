@@ -1,0 +1,15 @@
+#Help
+- targets: ['10.0.2.4:9100']
+  labels:
+    job: node
+    instance: 10.0.2.4:9100
+    
+- targets: ['10.20.2.15:9100']
+  labels:
+    job: node
+    instance: 10.20.2.15:9100
+
+- targets: ['172.17.0.1:9100']
+  labels:
+    job: node
+    instance: 172.17.0.1:9100
